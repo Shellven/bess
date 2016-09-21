@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.scau.bess.dao.AuthorityDao">
+	
+	 <select id="getList"  resultType="com.scau.bess.entity.AuthorityEntity">
+		select 
+		authority_id `authorityId`,
+		autName,
+		authority_content `authorityContent`,
+		authority_level `authorityLevel`
+		
+		from authority_tbl where 1=1
+	</select>
+	
+	<select id="searchListLimit" parameterType="string" resultType="com.scau.bess.entity.AuthorityEntity">
+	<bind name="pattern" value="'%'+_parameter+'%'"/>
+		select 
+		authority_id `authorityId`,
+		authority_name `authorityName`,
+		authority_content `authorityContent`,
+		authority_level `authorityLevel` 
+		from authority_tbl
+		where authorityName like #{pattern}
+	</select>
+	 
+	 <select id="listByPage" parameterType="com.scau.bess.dto.Page" resultType="com.scau.bess.entity.AuthorityEntity">
+		select 
+		authority_id `authorityId`,
+		authority_name `authorityName`,
+		authority_content `authorityContent`,
+		authority_level `authorityLevel` 
+		from authority_tbl where 1=1
+		limit #{start},#{size}
+	</select>
+	
+	<insert id="insert" parameterType="com.scau.bess.entity.AuthorityEntity">
+		insert into authority_tbl
+		(
+		authority_name,
+		authority_content,
+		authority_level 
+		)
+		values
+		(
+		#{authorityName},#{authorityContent},#{authorityLevel}
+		)
+	</insert>
+
+	<select id="view" parameterType="int" resultType="com.scau.bess.entity.AuthorityEntity">
+		select 
+		authority_id `authorityId`,
+		authority_name `authorityName`,
+		authority_content `authorityContent`,
+		authority_level `authorityLevel` 
+		from authority_tbl where authority_Id = #{authorityId}
+	</select>
+
+	<update id="update" parameterType="com.scau.bess.entity.AuthorityEntity">
+		update authority_tbl
+		set
+		authorityName = #{authorityName},authorityContent = #{authorityContent},authorityLevel = #{authorityLevel},
+		where authorityId = #{authorityId}
+	</update>
+
+	<delete id="del" parameterType="com.scau.bess.entity.AuthorityEntity">
+		delete from authority_tbl
+		where authority_Id=#{authorityId}
+	</delete>
+</mapper>
